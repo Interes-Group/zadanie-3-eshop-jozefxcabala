@@ -42,6 +42,18 @@ public class ProductService implements IProductService{
     }
 
     @Override
+    public Product getProductAmount(Long id) {
+        return findById(id);
+    }
+
+    @Override
+    public Product incrementProductAmount(Long id, ProductRequest request) {
+        Product foundProduct = findById(id);
+        foundProduct.incrementAmount(request.getAmount());
+        return foundProduct;
+    }
+
+    @Override
     public Product create(ProductRequest request) {
         Product newProduct = new Product();
         newProduct.setName(request.getName());

@@ -23,4 +23,8 @@ public class Product {
     private int amount;
     private String unit;
     private int price;
+
+    public void incrementAmount(int amount){
+        this.amount += amount;
+    }
 }

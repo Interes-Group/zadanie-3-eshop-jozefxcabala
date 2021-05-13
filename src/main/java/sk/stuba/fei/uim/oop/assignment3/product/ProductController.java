@@ -1,5 +1,6 @@
 package sk.stuba.fei.uim.oop.assignment3.product;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,17 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable("id") Long id){
         this.service.deleteProduct(id);
+    }
+
+
+    @GetMapping("/{id}/amount")
+    public ResponseEntity<ProductAmountResponse> getProductAmount(@PathVariable("id") Long id){
+        return new ResponseEntity<>(new ProductAmountResponse(this.service.findById(id)), HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}/amount")
+    public ResponseEntity<ProductAmountResponse> incrementProductAmount(@PathVariable("id") Long id, @RequestBody ProductRequest request){
+        return new ResponseEntity<>(new ProductAmountResponse(this.service.incrementProductAmount(id, request)), HttpStatus.OK);
     }
 
 }

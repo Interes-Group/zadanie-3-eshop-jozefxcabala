@@ -8,4 +8,6 @@ public interface IProductService {
     Product findById(Long id);
     Product updateProduct(long id, String name, String description);
     void deleteProduct(long id);
+    Product getProductAmount(Long id);
+    Product incrementProductAmount(Long id, ProductRequest request);
 }
