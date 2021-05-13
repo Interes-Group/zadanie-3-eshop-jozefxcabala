@@ -18,10 +18,21 @@ public class ShoppingCartService implements IShoppingCartService{
     }
 
     @Override
+    public ShoppingCart findById(Long id) {
+        return this.repository.findById(id).orElseThrow();
+    }
+
+    @Override
     public ShoppingCart create() {
         ShoppingCart newShoppingCart = new ShoppingCart();
         newShoppingCart.setShoppingList(new ArrayList<>());
         newShoppingCart.setPayed(true);
         return this.repository.save(newShoppingCart);
+    }
+
+    @Override
+    public void deleteShoppingCart(long id) {
+        ShoppingCart foundShoppingCart = findById(id);
+        this.repository.delete(foundShoppingCart);
     }
 }
