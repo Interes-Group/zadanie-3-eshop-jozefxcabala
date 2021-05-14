@@ -3,7 +3,6 @@ package sk.stuba.fei.uim.oop.assignment3.cart;
 import sk.stuba.fei.uim.oop.assignment3.exceptions.BadRequestException;
 import sk.stuba.fei.uim.oop.assignment3.exceptions.NotFoundException;
 import sk.stuba.fei.uim.oop.assignment3.item.ItemRequest;
-import sk.stuba.fei.uim.oop.assignment3.product.Product;
 
 public interface IShoppingCartService {
     ShoppingCart create();

@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import sk.stuba.fei.uim.oop.assignment3.cart.ShoppingCart;
-import sk.stuba.fei.uim.oop.assignment3.product.Product;
 
 import javax.persistence.*;
 
@@ -21,11 +19,6 @@ public class Item {
 
     private Long productId;
     private int amount;
-
-    public Item(Long productId, int amount) {
-        this.productId = productId;
-        this.amount = amount;
-    }
 
     public void incrementAmount(int amount){
         this.amount += amount;

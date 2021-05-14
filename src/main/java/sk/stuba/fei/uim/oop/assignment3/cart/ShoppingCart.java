@@ -1,11 +1,9 @@
 package sk.stuba.fei.uim.oop.assignment3.cart;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sk.stuba.fei.uim.oop.assignment3.item.Item;
-import sk.stuba.fei.uim.oop.assignment3.product.Product;
 
 import javax.persistence.*;
 import java.util.List;

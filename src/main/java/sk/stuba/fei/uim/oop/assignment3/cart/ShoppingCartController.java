@@ -1,6 +1,5 @@
 package sk.stuba.fei.uim.oop.assignment3.cart;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,9 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import sk.stuba.fei.uim.oop.assignment3.exceptions.BadRequestException;
 import sk.stuba.fei.uim.oop.assignment3.exceptions.NotFoundException;
 import sk.stuba.fei.uim.oop.assignment3.item.ItemRequest;
-import sk.stuba.fei.uim.oop.assignment3.product.ProductAmountResponse;
-import sk.stuba.fei.uim.oop.assignment3.product.ProductRequest;
-import sk.stuba.fei.uim.oop.assignment3.product.ProductResponse;
 
 @RestController
 @RequestMapping("/cart")

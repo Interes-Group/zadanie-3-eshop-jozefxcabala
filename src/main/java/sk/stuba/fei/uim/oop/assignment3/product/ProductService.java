@@ -2,7 +2,6 @@ package sk.stuba.fei.uim.oop.assignment3.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -39,11 +38,6 @@ public class ProductService implements IProductService{
     public void deleteProduct(long id) {
         Product foundProduct = findById(id);
         this.repository.delete(foundProduct);
-    }
-
-    @Override
-    public Product getProductAmount(Long id) {
-        return findById(id);
     }
 
     @Override

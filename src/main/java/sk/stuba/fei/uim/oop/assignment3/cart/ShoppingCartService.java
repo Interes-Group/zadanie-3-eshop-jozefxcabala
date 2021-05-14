@@ -3,14 +3,12 @@ package sk.stuba.fei.uim.oop.assignment3.cart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sk.stuba.fei.uim.oop.assignment3.exceptions.BadRequestException;
-import sk.stuba.fei.uim.oop.assignment3.exceptions.NotFoundException;
 import sk.stuba.fei.uim.oop.assignment3.item.Item;
 import sk.stuba.fei.uim.oop.assignment3.item.ItemRepository;
 import sk.stuba.fei.uim.oop.assignment3.item.ItemRequest;
 import sk.stuba.fei.uim.oop.assignment3.product.IProductService;
 import sk.stuba.fei.uim.oop.assignment3.product.Product;
 import sk.stuba.fei.uim.oop.assignment3.product.ProductRepository;
-import sk.stuba.fei.uim.oop.assignment3.product.ProductRequest;
 
 import java.util.ArrayList;
 
@@ -41,7 +39,7 @@ public class ShoppingCartService implements IShoppingCartService{
     public ShoppingCart create() {
         ShoppingCart newShoppingCart = new ShoppingCart();
         newShoppingCart.setShoppingList(new ArrayList<>());
-        newShoppingCart.setPayed(false); //uprav na true
+        newShoppingCart.setPayed(false);
         return this.repository.save(newShoppingCart);
     }
 
@@ -56,36 +54,40 @@ public class ShoppingCartService implements IShoppingCartService{
         ShoppingCart foundShoppingCart = findById(id);
         Product foundProduct = this.productService.findById(request.getProductId());
 
-        if(foundShoppingCart.isPayed()){
+        if(foundShoppingCart.isPayed() || request.getAmount() > foundProduct.getAmount()){
             throw new BadRequestException();
         }
 
-        if(request.getAmount() > foundProduct.getAmount()){
-            throw new BadRequestException();
-        }
+        updateProductAndCart(foundShoppingCart, request, foundProduct);
 
-        Item foundItem = foundShoppingCart.findItem(request.getProductId());
-
-        if(foundItem != null){
-            int price = request.getAmount()*foundProduct.getPrice();
-            foundItem.incrementAmount(request.getAmount());
-            foundProduct.decrementAmount(request.getAmount());
-            foundShoppingCart.calculatePriceOfShoppingCart(price);
-            this.itemRepository.save(foundItem);
-        }
-        else{
-            int price = request.getAmount()*foundProduct.getPrice();
-            Item newItem = new Item();
-            newItem.setProductId(request.getProductId());
-            newItem.incrementAmount(request.getAmount());
-            foundProduct.decrementAmount(request.getAmount());
-            foundShoppingCart.getShoppingList().add(newItem);
-            foundShoppingCart.calculatePriceOfShoppingCart(price);
-            this.itemRepository.save(newItem);
-        }
-
-        this.productRepository.save(foundProduct);
         return this.repository.save(foundShoppingCart);
+    }
+
+    private void updateProductAndCart(ShoppingCart foundShoppingCart, ItemRequest request, Product foundProduct){
+        Item foundItem = foundShoppingCart.findItem(request.getProductId());
+        int price = request.getAmount()*foundProduct.getPrice();
+
+        if(foundItem != null)
+            incrementExistingItem(foundItem, request);
+        else
+            addNewItem(request, foundShoppingCart);
+
+        foundProduct.decrementAmount(request.getAmount());
+        foundShoppingCart.calculatePriceOfShoppingCart(price);
+        this.productRepository.save(foundProduct);
+    }
+
+    private void incrementExistingItem(Item foundItem, ItemRequest request){
+        foundItem.incrementAmount(request.getAmount());
+        this.itemRepository.save(foundItem);
+    }
+
+    private void addNewItem(ItemRequest request, ShoppingCart foundShoppingCart){
+        Item newItem = new Item();
+        newItem.setProductId(request.getProductId());
+        newItem.incrementAmount(request.getAmount());
+        foundShoppingCart.getShoppingList().add(newItem);
+        this.itemRepository.save(newItem);
     }
 
     @Override
