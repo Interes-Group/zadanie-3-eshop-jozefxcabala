@@ -27,4 +27,7 @@ public class Product {
     public void incrementAmount(int amount){
         this.amount += amount;
     }
+    public void decrementAmount(int amount){
+        this.amount -= amount;
+    }
 }
